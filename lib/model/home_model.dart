@@ -48,4 +48,5 @@ class HomeModel {
         localNavList: localNavList,
         subNavList: subNavList);
   }
+
 }
