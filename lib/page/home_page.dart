@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white30,
+      backgroundColor: Color(0xf2f2f2),
         body: Stack(
       children: <Widget>[
         Center(
@@ -93,8 +93,11 @@ class _HomePageState extends State<HomePage> {
                     },
                     pagination: SwiperPagination(),
                   )),
-              LocalNav(
-                localNavList: localNavList,
+              Padding(
+                padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                child: LocalNav(
+                  localNavList: localNavList,
+                ),
               ),
               Container(
                 height: 800,
