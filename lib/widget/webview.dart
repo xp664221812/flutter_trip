@@ -10,12 +10,13 @@ class WebView extends StatefulWidget {
   final bool hideAppBar;
   final bool backForbid;
 
-  WebView({Key key,
-    this.url,
-    this.statusBarColor,
-    this.title,
-    this.hideAppBar,
-    this.backForbid})
+  WebView(
+      {Key key,
+      this.url,
+      this.statusBarColor,
+      this.title,
+      this.hideAppBar,
+      this.backForbid})
       : super(key: key);
 
   @override
@@ -36,14 +37,14 @@ class _WebViewState extends State<WebView> {
 
     _onStateChanged =
         webViewReference.onStateChanged.listen((WebViewStateChanged state) {
-          switch (state.type) {
-            case WebViewState.startLoad:
-              break;
+      switch (state.type) {
+        case WebViewState.startLoad:
+          break;
 
-            default:
-              break;
-          }
-        });
+        default:
+          break;
+      }
+    });
 
     _onHttpError =
         webViewReference.onHttpError.listen((WebViewHttpError error) {});
@@ -60,15 +61,34 @@ class _WebViewState extends State<WebView> {
 
   @override
   Widget build(BuildContext context) {
+    String statusBarColorStr = widget.statusBarColor ?? 'ffffff';
+    Color backButtonColor;
+    if (statusBarColorStr == 'ffffff') {
+      backButtonColor = Colors.black;
+    } else {
+      backButtonColor = Colors.white;
+    }
     return Scaffold(
       body: Column(
-          children: <Widget>[
-          _appBar(null, null),
-            Expanded(
-
-            )
-      ],
-    ),);
+        children: <Widget>[
+          _appBar(Color(int.parse('0xff' + statusBarColorStr)), backButtonColor),
+          Expanded(
+            child: WebviewScaffold(
+              url: widget.url,
+              withZoom: true,
+              withLocalStorage: true,
+              hidden: true,
+              initialChild: Container(
+                color: Colors.white,
+                child: Center(
+                  child: Text('Waitting...'),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   _appBar(Color backgroundColor, Color backButtonColor) {
@@ -76,12 +96,12 @@ class _WebViewState extends State<WebView> {
       return Container(
         color: backgroundColor,
         height: 30,
-
       );
     }
 
     return Container(
-      child: FractionallySizedBox( //会撑满宽度
+      child: FractionallySizedBox(
+        //会撑满宽度
         widthFactor: 1,
         child: Stack(
           children: <Widget>[
@@ -96,11 +116,14 @@ class _WebViewState extends State<WebView> {
                 ),
               ),
             ),
-            Positioned( //绝对布局
+            Positioned(
+                //绝对布局
                 left: 0,
                 right: 0,
-                child: Text(widget.title ?? '',
-                  style: TextStyle(color: backButtonColor, fontSize: 20),))
+                child: Text(
+                  widget.title ?? '',
+                  style: TextStyle(color: backButtonColor, fontSize: 20),
+                ))
           ],
         ),
       ),
